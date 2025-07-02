@@ -11,6 +11,7 @@ Este projeto simula um ambiente hospitalar com fluxo de pacientes utilizando tr�
 
 ## 2 Fluxo de Ações por Ciclo
 
+A simulção segue a sequência lógica a cada ciclo:
 
 1. Verificar vagas nos leitos (lista):
    - Se houver leito disponível, mover paciente do deque para a lista de leitos, priorizando aquele com maior prioridade entre as extremidades.
@@ -30,11 +31,17 @@ Este projeto simula um ambiente hospitalar com fluxo de pacientes utilizando tr�
 
 ## 3 Logs
 
+Todos os eventos devem ser registrados:
 
 - Em tempo real no terminal.
 - Em arquivo: **processamento.log**
 
 **Formato do Log**: Cada evento deve estar em uma linha distinta, conforme o exemplo abaixo:
+
+[CICLO 05]
+ALTA        - PAC011 (Carlos Lima)
+INTERNADO   - PAC007 (prioridade 5)
+ESPERA      - PAC024 (prioridade 3)
 
 
 Essa estrutura permite maior organização e análise dos eventos ocorridos durante a simulação.
@@ -49,6 +56,8 @@ Essa estrutura permite maior organização e análise dos eventos ocorridos dura
 
 ## 5 Regras de Inserção e Remoção no Deque (Fila de Espera)
 
+**Inserção:**
+A inserção de pacientes no deque segue a seguinte lógica:
 
 - Pacientes com prioridade 4 ou 5 (alta ou emergência) são inseridos na frente do deque.
 - Pacientes com prioridade 1, 2 ou 3 (baixa a moderada) são inseridos no fim do deque.
@@ -96,7 +105,7 @@ O importante é que a lógica do projeto seja respeitada e as estruturas funcion
 
 ## 8 Diagrama da Arquitetura do Sistema
 
-(*Conteúdo não fornecido no original*)
+![diagrama png](diagrama.png)
 
 ## 9 Regras a Seguir
 
