@@ -38,10 +38,10 @@ Todos os eventos devem ser registrados:
 
 **Formato do Log**: Cada evento deve estar em uma linha distinta, conforme o exemplo abaixo:
 
-[CICLO 05]
-ALTA        - PAC011 (Carlos Lima)
-INTERNADO   - PAC007 (prioridade 5)
-ESPERA      - PAC024 (prioridade 3)
+- [CICLO 05]
+- ALTA        - PAC011 (Carlos Lima)
+- INTERNADO   - PAC007 (prioridade 5)
+- ESPERA      - PAC024 (prioridade 3)
 
 
 Essa estrutura permite maior organização e análise dos eventos ocorridos durante a simulação.
