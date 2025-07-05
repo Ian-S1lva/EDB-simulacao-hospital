@@ -100,19 +100,19 @@ void inserir(tabela_hash *tabela, int chave, char *nome, int prioridade, int ate
 
 //busca no hash correspondente a chave, se há um elemento com a chave
 //retorna sim ou nao
-int buscar(tabela_hash *tabela, int chave)
+No* buscar(tabela_hash *tabela, int chave)
 {
   int indice = funcao_hash(chave);
   No *atual = tabela->tabela[indice];
 
   while(atual != NULL){
     if(atual->chave == chave){
-      return 1;
+      return atual;
     }
       atual = atual->proximo;
   }
   
-  return 0;
+  return NULL;
 }
 
 // remove hash correspondente a chave, se existir
