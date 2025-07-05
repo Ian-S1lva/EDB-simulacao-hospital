@@ -5,103 +5,101 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <unistd.h>
 
 #include "dados_pacientes.h"
-
-#define TAMANHO_LINHA 100
-
-int lerCSV(tabela_hash *tabela){
-    FILE* arquivo = fopen("pacientes.csv", "r");
-    if (!arquivo) {
-        perror("Arquivo pacientes.csv nao encontrado na pasta \"input\".\n");
-        return 1;
-    }
-
-    char linha[TAMANHO_LINHA];
-
-    int chave; //lê apenas o numero, ex.: PAC001 -> 001
-    char nome[TAMANHO_NOME];
-    int prioridade;
-    int atendido;
-//TESTE
-    while(fscanf(arquivo, "%s", linha) != -1){//enquanto ler linhas
-
-        //analise a entrada por campos
-        for(int i = 0, j = 0, k = 0  ; i < TAMANHO_LINHA; i++){
-        // i percorre a linha lida
-        // j conta os campos separados por ';'
-        // k marcaa posição do último ';'
-        /* CAMPOS RELEVANTES: 0,1,5,6
-      0->  ID: Código identificador (ex: PAC001)
-      1->  Nome completo
-      2  Idade     3  Sexo      4  CPF
-      5->  Prioridade: Valor inteiro de 1 a 5 (1 = baixa prioridade, 5 = emergência)
-      6->  Atendido: Valor lógico 0 ou 1
-        */
-
-            if(linha[i] == ';'){
-                char campo[30];
-                strncpy(campo, &linha[k], k-i+1);
-
-                if(j == 0){
-                    int n = strlen(campo) - 1;
-                    chave = campo[n] - '0' + 10*(campo[n-1] - '0') + 100*(campo[n-2] - '0');
-                }
-                else if(j == 1){
-                    strncpy(nome,campo,strlen(campo));
-                }
-                else if(j == 5){
-                    prioridade = campo[0] - '0';
-                }
-                else if(j == 6){
-                    atendido = campo[0] - '0';
-                }
-                
-                //mais um ';'
-                j++;
-                k = i;
-            }
-        }
-        //depois de analisar o campo, insere na tabela
-        inserir(tabela, chave, nome, prioridade, atendido);
-    }
-
-    fclose(arquivo);
-    return 0;
-}
-
+#include "importar_arquivo.h"
 
 int main(){
+    bool continuar = true;
+    bool verificar_paciente_fila,verificar_paciente_nao_atendido,verificar_paciente_alta;
+    int cont = 0;
+    Paciente paciente_alta, paciente_inernado, paciente_espera;
+
     tabela_hash tabela;
     inicializar_tabela(&tabela);
     lerCSV(&tabela);
     imprimir_tabela(&tabela);
 
-    int cont = 0;
-        while(cont < 5){
-            sleep(2);
-            cont++;
-            printf("%d\n",cont);
+    //INICIALIZA DADOS
+    //lista_leitos lista_leito
+    //fila_espera fila_espera
+    //pilha_altas pilha_alta
+    //inicializar_lista_leito(&lista_leito)
+    //inicializar_fila_espera(&fila_espera)
+    //inicializar_pilha_altas(&pilha_alta)
+
+    int ciclo = 0;
+    while(continuar){
+        ciclo++;
+
+        if(ciclo>5){//só para nao rodar infinito
+            continuar = 0;
         }
 
+        //FUNCOES CHAMADAS POR CICLO
+        //esboco
+        /*
+        verificar_paciente_fila = verificar_paciente_fila(fila_espera);
+        verificar_paciente_nao_atendido = verificar_paciente_nao_atendido(tabela);
+        verificar_paciente_alta = verificar_paciente_alta(lista_leito);
+
+        */
+
+        /*
+        if(verificar_paciente_alta && chance_aleatoria(50%)){
+            paciente_alta = retorno_leito(lista_leito);
+            incluir_alta(pilha_alta, paciente_alta);
+        }
+        */
+
+        /*
+        if(verificar_paciente_fila && verificar_vaga_leito(lista_leito)){
+            paciente_leito = paciente_prioridade_fila(fila_espera);
+            incluir_leito(lista_leito, paciente_leito);
+        }
+        */
+
+        /*
+        if(verificar_paciente_nao_atendido && verificar_vaga_fila(fila_espera)){
+            paciente_espera = tabela_retorno_aleatorio(tabela);
+            incluir_fila_prioridade(fila_espera, paciente_espera);
+        }
+        */
 
 
 
-/*
-OK iterar ciclo (a cada 2 segundos)
+        /*
+        if(!verificar_paciente_fila && !verificar_paciente_nao_atendido && !verificar_paciente_alta){
+                continuar = false;
+        }
+        */
 
-1. Atualiza leito
-    Atualiza alta
 
-2. Atualiza fila de espera
+        sleep(2);
 
-3. Atualiza dados de pacientes
+        printf("\n[CICLO %d]\n"
+                "ALTA - PAC INT(STRING)\n"
+                "INTERNADO - PAC INT (prioridade INT)\n"
+                "ESPERA - PAC INT (prioridade INT)\n",ciclo);
+        //Adicionar no log - por print no arquivo
+    }
 
-registrar no log
-*/
+    /*
+    OK iterar ciclo (a cada 2 segundos) done
 
-//encerra quando dados_pacientes, fila_espera, lista_leitos estiverem todos vazios
+    1. Atualiza leito
+        Atualiza alta
+
+    2. Atualiza fila de espera
+
+    3. Atualiza dados de pacientes
+
+    registrar no log
+    */
+
+    //encerra quando dados_pacientes, fila_espera, lista_leitos estiverem todos vazios
     return 0;
 }
 
@@ -117,7 +115,7 @@ Formato do Log: Cada evento deve estar em uma linha distinta, conforme o exemplo
 ALTA - PAC011 (Carlos Lima)
 INTERNADO - PAC007 (prioridade 5)
 ESPERA - PAC024 (prioridade 3)
-Essa estrutura permite maior organização e análise dos eventos ocorridos durante a simulação.
+Essa estrutura permite maior organiza��o e an�lise dos eventos ocorridos durante a simula��o.
 
 
 */

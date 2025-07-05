@@ -1,7 +1,7 @@
 //criar cabecalho .h
 //criar corpo
 
-//obs.: precisa criar separado?
+//obs.: precisa criar separado? talvez
 //ESTRUTURA: PILHA
 
 /*

@@ -33,19 +33,19 @@ hash 9 -> 99, 89, 39, 999
 
 
 //cada No tem uma chave, e aponta para o proximo no do mesmo HASH
-typedef struct No{
-  int chave; //lê apenas o numero, ex.: PAC001 -> 001
+typedef struct Paciente{
+  int chave; //lê apenas o numero, ex.: PAC023 -> 23
 
   char nome[TAMANHO_NOME];
   int prioridade;
   int atendido;
 
-  struct No *proximo;
-} No;
+  struct Paciente *proximo;
+} Paciente;
 
 //tabela hash é um array, cada indice associa um hash
 typedef struct tabela_hash{
-  No *tabela[TAMANHO];
+  Paciente *tabela[TAMANHO];
 }tabela_hash;
 
 
@@ -55,12 +55,20 @@ int funcao_hash(int chave)
   return chave % TAMANHO;
 }
 
+char* converteCHAVE(tabela_hash *tabela, int chave, char *str){
+//EM CONSTRUCAO
+//converte chave em int para em char, para imprimir
+  
+  return str;
+
+}
+
 //cria um novo NO
-No *criar_no(int chave)
+Paciente *criar_no(int chave)
 {
-  No *novo_no = (No *)malloc(sizeof(No));
+  Paciente *novo_no = (Paciente *)malloc(sizeof(Paciente));
   if(novo_no){
-    novo_no->chave = chave; 
+    novo_no->chave = chave;
     novo_no->proximo = NULL;
   }
   return novo_no;
@@ -72,6 +80,8 @@ void inicializar_tabela(tabela_hash *tabela)
     for(int i = 0; i < TAMANHO; i++){
         tabela->tabela[i] = NULL;
     }
+
+    return;
 }
 
 //insere chave no seu hash correspondente, o novo elemento inserido se torna o 1º na lista da tabela hash
@@ -79,7 +89,7 @@ void inicializar_tabela(tabela_hash *tabela)
 void inserir(tabela_hash *tabela, int chave, char *nome, int prioridade, int atendido)
 {
   int indice = funcao_hash(chave);
-  No* novo_no = criar_no(chave);
+  Paciente* novo_no = criar_no(chave);
 
   if(tabela->tabela[indice] == NULL){
     tabela->tabela[indice] = novo_no;
@@ -95,15 +105,15 @@ void inserir(tabela_hash *tabela, int chave, char *nome, int prioridade, int ate
     novo_no->prioridade = prioridade;
     novo_no->atendido = atendido;
 
-
+    return;
 }
 
 //busca no hash correspondente a chave, se há um elemento com a chave
 //retorna sim ou nao
-No* buscar(tabela_hash *tabela, int chave)
+Paciente* buscar(tabela_hash *tabela, int chave)
 {
   int indice = funcao_hash(chave);
-  No *atual = tabela->tabela[indice];
+  Paciente *atual = tabela->tabela[indice];
 
   while(atual != NULL){
     if(atual->chave == chave){
@@ -111,7 +121,7 @@ No* buscar(tabela_hash *tabela, int chave)
     }
       atual = atual->proximo;
   }
-  
+
   return NULL;
 }
 
@@ -119,8 +129,8 @@ No* buscar(tabela_hash *tabela, int chave)
 void remover(tabela_hash *tabela, int chave)
 {
   int indice = funcao_hash(chave);
-  No *atual = tabela->tabela[indice];
-  No *anterior = NULL;
+  Paciente *atual = tabela->tabela[indice];
+  Paciente *anterior = NULL;
 
   while(atual != NULL)
   {
@@ -136,17 +146,17 @@ void remover(tabela_hash *tabela, int chave)
     anterior = atual;
     atual = atual->proximo;
   }
-  
+
 }
 
 //NAO USADO
 void imprimir_tabela(tabela_hash* tabela)
 {
   for(int i = 0; i < TAMANHO; i++){
-    printf("Índice %d: ", i);
-    No* atual = tabela->tabela[i];
+    printf("Índice %d:\n", i);
+    Paciente* atual = tabela->tabela[i];
     while(atual != NULL){
-      printf("%d -> ", atual->chave);
+      printf("%d  %s  %d  %d ->\n", atual->chave,atual->nome,atual->prioridade, atual->atendido);
       atual = atual->proximo;
     }
     printf("NULL\n");
