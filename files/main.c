@@ -2,10 +2,16 @@
 
 //criar: dados pacientes, fila espera, lista leitos, pilha altas
 //pode usar array ou vetor
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h> 
+
 #include "../dados_pacientes.h"
+
 #define TAMANHO_LINHA 100
 
-int lerCSV(const char* nome_arquivo, tabela_hash *tabela) {
+int lerCSV(tabela_hash *tabela) {
     FILE* arquivo = fopen("input/pacientes.csv", "r");
     if (!arquivo) {
         perror("Arquivo pacientes.csv nao encontrado na pasta \"input\".\n");
@@ -34,7 +40,7 @@ int lerCSV(const char* nome_arquivo, tabela_hash *tabela) {
       6->  Atendido: Valor lógico 0 ou 1
         */
 
-        if(campo[i] == ';'){
+        if(linha[i] == ';'){
             char campo[30];
             strncpy(campo, &linha[k], k-i+1);    
             
@@ -68,6 +74,12 @@ int lerCSV(const char* nome_arquivo, tabela_hash *tabela) {
 
 int main(){
 
+    int cont = 0;
+        while(cont < 5){
+            sleep(2);
+            cont++;
+            printf("%d",cont);
+        }
 
 
     
