@@ -1,8 +1,7 @@
-#define TAMANHO 10
-#define TAMANHO_NOME 30
 #ifndef DADOS_PACIENTES_H
 #define DADOS_PACIENTES_H
-
+#define TAMANHO 10
+#define TAMANHO_NOME 30
 
 //struct
 typedef struct Paciente{

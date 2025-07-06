@@ -1,16 +1,59 @@
-//criar cabecalho .h
-//criar corpo
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "lista_leitos.h"
 
-//ESTRUTURA DE DADOS: LISTA
 
-/*
+void inicializar_leito(ListaLeitos* l){
+    l->inicio = 0;
+    l->fim = 0;
+    l->qtd = 0;
+}
 
-capacidade maxima = 10
+int leito_vazio(ListaLeitos* l){
+    return l->qtd == 0;
+}
 
-1 Verificar vagas nos leitos (lista):
+int leito_cheio(ListaLeitos* l){
+    return l->qtd == TAM_LEITOS;
+}
 
-Se houver leito disponível, mover paciente do deque para a lista de leitos, priorizando aquele com maior prioridade entre as extremidades.
-Se não houver vaga, o sistema aguarda até que pacientes recebam alta.
-Quando ocorre alta, o paciente é removido da lista de leitos e adicionado à pilha de histórico de internamentos.
+int leito_tem_paciente(ListaLeitos* l){
+    return l->qtd > 0;
+}
 
-*/
+void inserir_leito(ListaLeitos* l, Paciente* p){
+    if(leito_cheio(l)){
+        return;
+    }
+
+    l->lista[l->qtd] = p;
+    l->fim = l->qtd;
+    l->qtd++;
+    return;
+
+}
+
+Paciente* alta_aleatoria(ListaLeitos* l){
+    if(leito_vazio(l)){
+        return NULL;
+    }
+
+    //srand(time(NULL));
+    int sorteado = rand() % l->qtd;
+    Paciente* p = l->lista[sorteado];
+
+    if(sorteado = l->fim){
+        l->lista[sorteado] = NULL;
+        l->qtd--;
+        return p;
+    }
+
+    for(int i = sorteado; i < l->qtd; i++){
+        l->lista[i] = l->lista[i+1];
+    }
+
+    l->qtd--;
+    return p;
+
+}

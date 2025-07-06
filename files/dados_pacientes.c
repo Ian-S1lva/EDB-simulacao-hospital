@@ -13,6 +13,8 @@ capacidade = 50 registros
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include "dados_pacientes.h"
 
 #define TAMANHO 10
 #define TAMANHO_NOME 30
@@ -31,24 +33,6 @@ hash 9 -> 99, 89, 39, 999
 
 */
 
-
-//cada No tem uma chave, e aponta para o proximo no do mesmo HASH
-typedef struct Paciente{
-  int chave; //lê apenas o numero, ex.: PAC023 -> 23
-
-  char nome[TAMANHO_NOME];
-  int prioridade;
-  int atendido;
-
-  struct Paciente *proximo;
-} Paciente;
-
-//tabela hash é um array, cada indice associa um hash
-typedef struct tabela_hash{
-  Paciente *tabela[TAMANHO];
-}tabela_hash;
-
-
 //a funcao hash associa cada chave ao indice correspondente ao resto da divisao chave%tamanho na tabela hash
 int funcao_hash(int chave)
 {
@@ -57,8 +41,7 @@ int funcao_hash(int chave)
 
 char* converteCHAVE(int chave, char *saida) {
     sprintf(saida, "PAC%03d", chave);
-    return sa
-ida;
+    return saida;
 }
 
 //cria um novo NO
@@ -189,7 +172,7 @@ Paciente* sortear_paciente(tabela_hash *tabela) {
 
     if (total == 0) return NULL;
 
-    srand(time(NULL));
+   // srand(time(NULL));
     int sorteado = rand() % total;
     candidatos[sorteado]->atendido = 1;
     return candidatos[sorteado];

@@ -8,7 +8,7 @@
 
 int lerCSV(tabela_hash *tabela){
     FILE* arquivo;
-    arquivo = fopen("pacientes.csv", "r");
+    arquivo = fopen("../input/pacientes.csv", "r");
     if (!arquivo) {
         perror("Arquivo pacientes.csv nao encontrado.\n");
         return 1;
