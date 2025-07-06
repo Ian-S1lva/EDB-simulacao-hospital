@@ -1,8 +1,59 @@
-//criar cabecalho .h
-//criar corpo
+#include <stdio.h>
+#include <stdlib.h>
+#include "fila_espera.h"
 
-//ESTRUTURA DE DADO: DEQUE
-//obs.:
+void inicializar_fila(FilaEspera* f) {
+    f->inicio = 0;
+    f->fim = -1;
+    f->qtd = 0;
+}
+
+int fila_cheia(FilaEspera* f) {
+    return f->qtd >= TAM_FILA;
+}
+
+int fila_vazia(FilaEspera* f) {
+    return f->qtd == 0;
+}
+
+int fila_tem_pacientes(FilaEspera* f) {
+    return f->qtd > 0;
+}
+
+void inserir_fila_prioridade(FilaEspera* f, Paciente* p) {
+    if (fila_cheia(f)) return;
+
+    if (p->prioridade >= 4) {
+        // Insere no início
+        f->inicio = (f->inicio - 1 + TAM_FILA) % TAM_FILA;
+        f->fila[f->inicio] = p;
+    } else {
+        // Insere no fim
+        f->fim = (f->fim + 1) % TAM_FILA;
+        f->fila[f->fim] = p;
+    }
+
+    f->qtd++;
+}
+
+Paciente* remover_maior_prioridade(FilaEspera* f) {
+    if (fila_vazia(f)) return NULL;
+
+    Paciente* p_inicio = f->fila[f->inicio];
+    Paciente* p_fim = f->fila[f->fim];
+
+    Paciente* escolhido;
+    if (p_inicio->prioridade >= p_fim->prioridade) {
+        escolhido = p_inicio;
+        f->inicio = (f->inicio + 1) % TAM_FILA;
+    } else {
+        escolhido = p_fim;
+        f->fim = (f->fim - 1 + TAM_FILA) % TAM_FILA;
+    }
+
+    f->qtd--;
+    return escolhido;
+}
 
 /*
 

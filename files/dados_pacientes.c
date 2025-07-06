@@ -55,12 +55,10 @@ int funcao_hash(int chave)
   return chave % TAMANHO;
 }
 
-char* converteCHAVE(tabela_hash *tabela, int chave, char *str){
-//EM CONSTRUCAO
-//converte chave em int para em char, para imprimir
-  
-  return str;
-
+char* converteCHAVE(int chave, char *saida) {
+    sprintf(saida, "PAC%03d", chave);
+    return sa
+ida;
 }
 
 //cria um novo NO
@@ -162,6 +160,41 @@ void imprimir_tabela(tabela_hash* tabela)
     printf("NULL\n");
   }
 }
+
+// Retorna 1 se ainda tiver pacientes não atendidos 
+int pacientes_nao_atendidos(tabela_hash *tabela) {
+    for (int i = 0; i < TAMANHO; i++) {
+        Paciente *p = tabela->tabela[i];
+        while (p != NULL) {
+            if (p->atendido == 0) return 1;
+            p = p->proximo;
+        }
+    }
+    return 0;
+}
+
+Paciente* sortear_paciente(tabela_hash *tabela) {
+    Paciente *candidatos[50];
+    int total = 0;
+
+    for (int i = 0; i < TAMANHO; i++) {
+        Paciente *p = tabela->tabela[i];
+        while (p != NULL) {
+            if (p->atendido == 0) {
+                candidatos[total++] = p;
+            }
+            p = p->proximo;
+        }
+    }
+
+    if (total == 0) return NULL;
+
+    srand(time(NULL));
+    int sorteado = rand() % total;
+    candidatos[sorteado]->atendido = 1;
+    return candidatos[sorteado];
+}
+
 
 /*
 3 Verificar término de pacientes não atendidos na tabela hash:
