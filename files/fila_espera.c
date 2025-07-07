@@ -21,6 +21,7 @@ int fila_tem_pacientes(FilaEspera* f) {
 }
 
 void inserir_fila_prioridade(FilaEspera* f, Paciente* p) {
+    
     if (fila_cheia(f)) return;
 
     if (p->prioridade >= 4) {
@@ -37,8 +38,9 @@ void inserir_fila_prioridade(FilaEspera* f, Paciente* p) {
 }
 
 Paciente* remover_maior_prioridade(FilaEspera* f) {
+    
     if (fila_vazia(f)) return NULL;
-
+    
     Paciente* p_inicio = f->fila[f->inicio];
     Paciente* p_fim = f->fila[f->fim];
 

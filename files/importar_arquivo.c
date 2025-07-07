@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "dados_pacientes.h"
+#include "importar_arquivo.h"
 #define TAMANHO_LINHA 200
 
 int lerCSV(tabela_hash *tabela){

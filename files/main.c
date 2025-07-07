@@ -19,7 +19,6 @@ int main(){
     tabela_hash tabela;
     inicializar_tabela(&tabela);
     lerCSV(&tabela);
-    imprimir_tabela(&tabela);
 
     FilaEspera fila;
     inicializar_fila(&fila);
@@ -34,8 +33,9 @@ int main(){
     int ciclo = 0;
     while (true)
     {
-        ciclo++;
+        ciclo++;        
         printf("\n[CICLO %02d]\n", ciclo);
+        printf("espera: %d leitos: %d\n",fila.qtd,leito.qtd);
 
         //Passo 0 - Alta aleatoria           
         if(leito_tem_paciente(&leito)){
