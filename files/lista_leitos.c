@@ -41,18 +41,13 @@ Paciente* alta_aleatoria(ListaLeitos* l){
 
     //srand(time(NULL));
     int sorteado = rand() % l->qtd;
-    Paciente* p = l->lista[sorteado];
-
-    if(sorteado = l->fim){
-        l->lista[sorteado] = NULL;
-        l->qtd--;
-        return p;
-    }
+    Paciente* p = l->lista[sorteado]; 
 
     for(int i = sorteado; i < l->qtd; i++){
         l->lista[i] = l->lista[i+1];
     }
-
+    l->lista[l->fim] = NULL;
+    l->fim--;
     l->qtd--;
     return p;
 

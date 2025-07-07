@@ -4,7 +4,7 @@
 
 void inicializar_fila(FilaEspera* f) {
     f->inicio = 0;
-    f->fim = -1;
+    f->fim = 0;
     f->qtd = 0;
 }
 
@@ -21,15 +21,20 @@ int fila_tem_pacientes(FilaEspera* f) {
 }
 
 void inserir_fila_prioridade(FilaEspera* f, Paciente* p) {
-    
     if (fila_cheia(f)) return;
 
-    if (p->prioridade >= 4) {
-        // Insere no início
+    // Inserção do primeiro elemento
+    if (f->qtd == 0) {
+        f->inicio = f->fim = 0;
+        f->fila[0] = p;
+    }
+    // Alta prioridade (>= 4) → insere no início
+    else if (p->prioridade >= 4) {
         f->inicio = (f->inicio - 1 + TAM_FILA) % TAM_FILA;
         f->fila[f->inicio] = p;
-    } else {
-        // Insere no fim
+    }
+    // Prioridade baixa → insere no fim
+    else {
         f->fim = (f->fim + 1) % TAM_FILA;
         f->fila[f->fim] = p;
     }
@@ -37,14 +42,13 @@ void inserir_fila_prioridade(FilaEspera* f, Paciente* p) {
     f->qtd++;
 }
 
-Paciente* remover_maior_prioridade(FilaEspera* f) {
-    
+Paciente* remover_maior_prioridade(FilaEspera* f) {    
     if (fila_vazia(f)) return NULL;
     
     Paciente* p_inicio = f->fila[f->inicio];
     Paciente* p_fim = f->fila[f->fim];
-
     Paciente* escolhido;
+
     if (p_inicio->prioridade >= p_fim->prioridade) {
         escolhido = p_inicio;
         f->inicio = (f->inicio + 1) % TAM_FILA;
