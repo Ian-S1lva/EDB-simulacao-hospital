@@ -14,8 +14,10 @@
 #include "importar_arquivo.h"
 #include "lista_leitos.h"
 #include "pilha_altas.h"
+#include "log.h"
 
-int main(){   
+int main()
+{
     tabela_hash tabela;
     inicializar_tabela(&tabela);
     lerCSV(&tabela);
@@ -30,35 +32,34 @@ int main(){
     inicializar_alta(&pilha);
 
     srand(time(NULL));
+    iniciar_log();
     int ciclo = 0;
     while (true)
     {
-        ciclo++;        
+        ciclo++;
         printf("\n[CICLO %02d]\n", ciclo);
-        printf("espera: %d leitos: %d\n",fila.qtd,leito.qtd);
+        printf("espera: %d leitos: %d\n", fila.qtd, leito.qtd);
 
-        //Passo 0 - Alta aleatoria           
-        if(leito_tem_paciente(&leito)){
+        // Passo 0 - Alta aleatoria
+        if (leito_tem_paciente(&leito))
+        {
 
-           // srand(time(NULL));
+            // srand(time(NULL));
 
-            if(rand()%3 == 1){
-                Paciente* paciente_alta = alta_aleatoria(&leito);
+            if (rand() % 3 == 1)
+            {
+                Paciente *paciente_alta = alta_aleatoria(&leito);
                 inserir_pilha_alta(&pilha, paciente_alta);
-                printf("ALTA- PAC%03d (%s) (prioridade %d)\n",
-                    paciente_alta->chave, paciente_alta->nome, paciente_alta->prioridade);
+                registrar_evento("ALTA", paciente_alta);
             }
         }
-
-     
 
         // PASSO 1 - Internar paciente se possível
         if (fila_tem_pacientes(&fila) && !leito_cheio(&leito))
         {
             Paciente *internado = remover_maior_prioridade(&fila);
-            inserir_leito(&leito,internado);
-            printf("INTERNADO - PAC%03d (%s) (prioridade %d)\n",
-                   internado->chave, internado->nome, internado->prioridade);
+            inserir_leito(&leito, internado);
+            registrar_evento("INTERNADO", internado);
         }
 
         // PASSO 2 - Inserir novo paciente na fila
@@ -66,8 +67,8 @@ int main(){
         {
             Paciente *novo = sortear_paciente(&tabela);
             inserir_fila_prioridade(&fila, novo);
-            printf("ESPERA - PAC%03d (%s) (prioridade %d)\n",
-                   novo->chave, novo->nome, novo->prioridade);
+            registrar_evento("ESPERA", novo);
+            ;
         }
 
         // PASSO 3 - Encerrar se nada mais a fazer
