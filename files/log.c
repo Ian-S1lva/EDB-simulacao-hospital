@@ -6,7 +6,7 @@
 static FILE* arquivo_log = NULL;
 
 void iniciar_log() {
-    arquivo_log = fopen("../logs/processamento.log", "w"); // sobrescreve o antigo
+    arquivo_log = fopen("../log/processamento.log", "w"); // sobrescreve o antigo
     if (!arquivo_log) {
         perror("Erro ao criar arquivo de log");
         exit(1);
@@ -24,13 +24,13 @@ void registrar_evento(const char* tipo, Paciente* p) {
 
     // Terminal
     if (strcmp(tipo, "ALTA") == 0)
-        printf("ALTA        - %s (%s)\n", id, p->nome);
+        printf("ALTA       - %s (%s)\n", id, p->nome);
     else
         printf("%-11s- %s (%s) (prioridade %d)\n", tipo, id, p->nome, p->prioridade);
 
     // Arquivo
     if (strcmp(tipo, "ALTA") == 0)
-        fprintf(arquivo_log, "ALTA        - %s (%s)\n", id, p->nome);
+        fprintf(arquivo_log, "ALTA       - %s (%s)\n", id, p->nome);
     else
         fprintf(arquivo_log, "%-11s- %s (%s) (prioridade %d)\n", tipo, id, p->nome, p->prioridade);
 }

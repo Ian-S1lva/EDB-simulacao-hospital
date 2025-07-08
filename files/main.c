@@ -37,8 +37,7 @@ int main()
     while (true)
     {
         ciclo++;
-        printf("\n[CICLO %02d]\n", ciclo);
-        printf("espera: %d leitos: %d\n", fila.qtd, leito.qtd);
+        registrar_ciclo(ciclo);
 
         // Passo 0 - Alta aleatoria
         if (leito_tem_paciente(&leito))
@@ -78,7 +77,7 @@ int main()
             break;
         }
 
-        sleep(0.5);
+        sleep(2);
     }
 
     return 0;
